@@ -1,0 +1,16 @@
+root@f8de516a87da:/# DEBUG:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Send to client packet size 70 from sw0-eth1
+DEBUG:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Send to client packet size 70 from sw0-eth2
+make 
+mkdir -p build
+slice2cpp -I/usr/share/Ice/slice --output-dir=build --header-ext=hpp core/pox.ice
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o build/pox.o build/pox.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o arp-cache.o arp-cache.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o routing-table.o routing-table.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o acl-table.o acl-table.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o simple-router.o simple-router.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o core/utils.o core/utils.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o core/interface.o core/interface.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o core/dumper.o core/dumper.cpp
+g++ -g -Wall -pthread -std=c++11 -I. -Ibuild/ -O2   -c -o core/main.o core/main.cpp
+g++ -o router build/pox.o arp-cache.o routing-table.o acl-table.o simple-router.o core/utils.o core/interface.o core/dumper.o core/main.o -lIce -lIceUtil -lboost_system -pthread
+root@f8de516a87da:/#

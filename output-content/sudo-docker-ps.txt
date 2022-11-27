@@ -1,0 +1,12 @@
+
+yanhauw3@cs118-vm-1:~/current-version$ sudo docker ps
+CONTAINER ID   IMAGE                     COMMAND   CREATED              STATUS              PORTS     NAMES
+f8de516a87da   118-project-2-container   "bash"    About a minute ago   Up About a minute             amazing_banach
+
+
+
+
+
+
+
+

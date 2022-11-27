@@ -1,0 +1,56 @@
+
+Workflow
+
+Every time we restart google cloud terminal
+1.Execute the same commands in the 2 terminals
+2.Copy the current version of the files into the container using the bash script
+
+
+Every time we make changes and want to run those changes
+1.We will have a 3rd terminal open in the environment outside the docker container
+2.Copy the current version of the files into the container using the bash script
+
+
+
+
+Outside and before first docker container
+
+sudo docker build -t 118-project-2-container .
+sudo docker run -it --privileged 118-project-2-container bash
+
+
+In first docker container
+
+service openvswitch-switch start
+python2.7 run.py
+
+
+In 2nd terminal
+Outside of and before 2nd docker container
+
+sudo docker ps
+sudo docker exec -it --privileged <name_of_container> bash
+
+
+In second docker container
+
+python2.7 -u /opt/pox/pox.py --verbose ucla_cs118 &
+make
+./router
+
+
+
+Other commands
+
+client ping server1
+client traceroute server1
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+
+processPacket
+    -called whenever a packet reaches the router
+    -check MAC and ensure same as interface
+    -check if ARP or not ARP
+    If ARP packet
+        If ARP request, lookup in table and return MAC
+        If ARP reply, 
+            -add mapping to table
+            -Iterate over all packets in Queue
+            -send all packets waiting on new mapping from IP address to MAC address
+    If IP packet
+        -Verify checksum
+        -match header length to given length
+        -check if IP version is IPV4
+        -verify packet should not be dropped by ACL
+        -check if destined for the router
+            -If so, drop the packet
+            -else
+                -Decrement TTL, if TTL = 0, drop the packet
+                -Look up next hop IP in routing table
+                -for every table entry in routing table, destination is final IP, gateway is next hop IP, do bitwise AND of the mask with the IP address, get the interface name
+                -Look up next hop IP in ARP cache, if MAC address is known send packet, else queue packet and send out ARP requests
+
+ARPcache
+-Managing ARP cache entries
+    -iterate over the cache, for each mapping
+        -If 30 seconds has passed since this mapping was created, remove the mapping
+        -else, do nothing
+-Managing ARP requests that need to be resent
+    -Iterate over pending ARP requests list
+    -Compare number of times sent to MAX_TIMES_SENT
+    -If has been sent too many times
+        -Remove pending arp request from list
+        -drop packets waiting on this arp reply
+    -else
+        -increment times arp request is sent
+        -resend the ARP request
+
+Routing table
+Method to lookup a routing table entry
+    -same as above. for every table entry in routing table, destination is final IP, gateway is next hop IP, do bitwise AND of the mask with the IP address, get the interface name
+
+ACL table
+    -Iterate over all entries, for each entry
+    -If matched, return entry

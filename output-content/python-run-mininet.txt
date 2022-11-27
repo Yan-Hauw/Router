@@ -1,0 +1,46 @@
+
+root@f8de516a87da:/# python2.7 run.py
+sw0-eth1 192.168.2.1
+sw0-eth2 172.64.3.1
+sw0-eth3 10.0.1.1
+server1 192.168.2.2
+server2 172.64.3.10
+client 10.0.1.100
+*** Successfully loaded ip settings for hosts
+ {'server1': '192.168.2.2', 'server2': '172.64.3.10', 'client': '10.0.1.100', 'sw0-eth1': '192.168.2.1', 'sw0-eth2': '172.64.3.1', 'sw0-eth3': '10.0.1.1'}
+*** Creating network
+*** Error setting resource limits. Mininet's performance may be affected.
+*** Creating network
+*** Adding controller
+Unable to contact the remote controller at 127.0.0.1:6633
+*** Adding hosts:
+client server1 server2 
+*** Adding switches:
+sw0 
+*** Adding links:
+(client, sw0) (server1, sw0) (server2, sw0) 
+*** Configuring hosts
+client server1 server2 
+*** Starting controller
+c0 
+*** Starting 1 switches
+sw0 ...
+*** setting default gateway of host server1
+server1 192.168.2.1
+*** setting default gateway of host server2
+server2 172.64.3.1
+*** setting default gateway of client client
+client 10.0.1.1
+192.168.2.0
+172.64.3.0
+10.0.1.0
+*** Starting CLI:
+mininet> 
+
+
+
+
+
+
+
+

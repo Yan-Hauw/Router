@@ -1,0 +1,26 @@
+root@f8de516a87da:/# ./router
+Loading Routing Table from RTABLE
+Loading ACL Table from ATABLE
+-- 11/25/22 22:50:13.542 ./router: Network: trying to establish tcp connection to 127.0.0.1:8888
+-- 11/25/22 22:50:13.543 Network: accepted tcp connection
+   local address = 127.0.0.1:8888
+   remote address = 127.0.0.1:56028
+-- 11/25/22 22:50:13.544 Network: tcp connection established
+   local address = 127.0.0.1:8888
+   remote address = 127.0.0.1:56028
+-- 11/25/22 22:50:13.544 ./router: Network: tcp connection established
+   local address = 127.0.0.1:56028
+   remote address = 127.0.0.1:8888
+DEBUG:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Got connection from: tcp -h 127.0.0.1 -p 8888 (id: 6D01F799-C30A-4EC1-B299-AD293BC1818A)
+Resetting SimpleRouter with 3 ports
+sw0-eth1 (192.168.2.1, ce:01:ba:55:1a:9a)
+sw0-eth2 (172.64.3.1, be:85:d1:be:fc:2f)
+sw0-eth3 (10.0.1.1, 62:92:3e:d2:e3:50)
+-- 11/25/22 22:50:13.550 ./router: Network: attempting to bind to tcp socket :::65500
+-- 11/25/22 22:50:13.550 ./router: Network: listening for tcp connections at :::65500
+   local interfaces: 10.0.1.100, 172.17.0.2, 127.0.0.1, 0:0:0:0:0:0:0:1
+-- 11/25/22 22:50:13.551 ./router: Network: published endpoints for object adapter `Tester':
+   tcp -h 10.0.1.100 -p 65500:tcp -h 172.17.0.2 -p 65500
+-- 11/25/22 22:50:13.551 ./router: Network: accepting tcp connections at :::65500
+
+

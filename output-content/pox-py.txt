@@ -1,0 +1,23 @@
+root@f8de516a87da:/# python2.7 -u /opt/pox/pox.py --verbose ucla_cs118 &
+[1] 347
+root@f8de516a87da:/# POX 0.5.0 (eel) / Copyright 2011-2014 James McCauley, et al.
+INFO:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Starting packet redirector...
+-- 11/25/22 22:45:14.223 Network: listening for tcp connections at 127.0.0.1:8888
+-- 11/25/22 22:45:14.224 Network: published endpoints for object adapter `SimpleRouter':
+   tcp -h 127.0.0.1 -p 8888
+-- 11/25/22 22:45:14.224 Network: accepting tcp connections at 127.0.0.1:8888
+DEBUG:core:POX 0.5.0 (eel) going up...
+DEBUG:core:Running on CPython (2.7.12/Mar 1 2021 11:38:31)
+DEBUG:core:Platform is Linux-5.15.0-1022-gcp-x86_64-with-Ubuntu-16.04-xenial
+INFO:core:POX 0.5.0 (eel) is up.
+DEBUG:openflow.of_01:Listening on 0.0.0.0:6633
+INFO:openflow.of_01:[2a-0e-85-bb-76-45 1] connected
+DEBUG:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Connection UP [2a-0e-85-bb-76-45 1]
+DEBUG:.usr.local.lib.python2.7.dist-packages.ucla_cs118.pox_rpc_server:Request requestReset with 3 interfaces
+
+Needed to press enter a few more times
+
+
+root@f8de516a87da:/# 
+
+

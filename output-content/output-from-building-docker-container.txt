@@ -1,0 +1,45 @@
+
+Building wheels for collected packages: ucla-cs118
+  Running setup.py bdist_wheel for ucla-cs118: started
+  Running setup.py bdist_wheel for ucla-cs118: finished with status 'done'
+  Stored in directory: /root/.cache/pip/wheels/c6/eb/c2/b2e5e254e0d9140fe361bbad57f8b28216478d3a309a5ab4a0
+Successfully built ucla-cs118
+Installing collected packages: ucla-cs118
+Successfully installed ucla-cs118-0.1.1
+You are using pip version 8.1.1, however version 22.3.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+Removing intermediate container 2c07e026eede
+ ---> 085389b001ee
+Step 16/17 : RUN service openvswitch-switch start
+ ---> Running in 7d3b4e8486b6
+modprobe: ERROR: ../libkmod/libkmod.c:586 kmod_search_moddep() could not open moddep file '/lib/modules/5.15.0-1022-gcp/modules.dep.bin'
+modprobe: FATAL: Module openvswitch not found in directory /lib/modules/5.15.0-1022-gcp
+ * Inserting openvswitch module
+ * /etc/openvswitch/conf.db does not exist
+ * Creating empty database /etc/openvswitch/conf.db
+nice: cannot set niceness: Permission denied
+ * Starting ovsdb-server
+ * Configuring Open vSwitch system IDs
+modprobe: ERROR: ../libkmod/libkmod.c:586 kmod_search_moddep() could not open moddep file '/lib/modules/5.15.0-1022-gcp/modules.dep.bin'
+modprobe: FATAL: Module openvswitch not found in directory /lib/modules/5.15.0-1022-gcp
+ * Inserting openvswitch module
+nice: cannot set niceness: Permission denied
+ * Starting ovs-vswitchd
+ * Enabling remote OVSDB managers
+Removing intermediate container 7d3b4e8486b6
+ ---> 81469c681f4a
+Step 17/17 : CMD /bin/bash
+ ---> Running in 3a3382c7f68a
+Removing intermediate container 3a3382c7f68a
+ ---> d7db6ddeba88
+Successfully built d7db6ddeba88
+Successfully tagged 118-project-2-container:latest
+yanhauw3@cs118-vm-1:~/current-version$ 
+
+
+
+
+
+
+
+

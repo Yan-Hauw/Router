@@ -1,0 +1,28 @@
+
+yanhauw3@cs118-vm-1:~/current-version$ sudo docker run -it --privileged 118-project-2-container bash
+root@f8de516a87da:/# ls 
+ATABLE      README.md      arp-cache.cpp  dev    media        root               run.py             srv
+COPYING.md  RTABLE         arp-cache.hpp  etc    mnt          router.config      sbin               sys
+Dockerfile  Vagrantfile    bin            home   opt          routing-table.cpp  show-arp.py        tmp
+IP_CONFIG   acl-table.cpp  boot           lib    pox.service  routing-table.hpp  simple-router.cpp  usr
+Makefile    acl-table.hpp  core           lib64  proc         run                simple-router.hpp  var
+root@f8de516a87da:/# service openvswitch-switch start
+modprobe: ERROR: ../libkmod/libkmod.c:586 kmod_search_moddep() could not open moddep file '/lib/modules/5.15.0-1022-gcp/modules.dep.bin'
+modprobe: FATAL: Module openvswitch not found in directory /lib/modules/5.15.0-1022-gcp
+ * Inserting openvswitch module
+ * Starting ovsdb-server
+ * Configuring Open vSwitch system IDs
+modprobe: ERROR: ../libkmod/libkmod.c:586 kmod_search_moddep() could not open moddep file '/lib/modules/5.15.0-1022-gcp/modules.dep.bin'
+modprobe: FATAL: Module openvswitch not found in directory /lib/modules/5.15.0-1022-gcp
+ * Inserting openvswitch module
+ * Starting ovs-vswitchd
+ * Enabling remote OVSDB managers
+root@f8de516a87da:/# 
+
+
+
+
+
+
+
+

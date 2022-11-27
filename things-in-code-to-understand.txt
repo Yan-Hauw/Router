@@ -1,0 +1,20 @@
+
+1.What is a Buffer
+2.How are they using namespaces in this way?
+3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
