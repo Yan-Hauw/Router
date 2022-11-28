@@ -136,6 +136,38 @@ namespace simple_router
 
     // FILL THIS IN
 
+    ethernet_hdr *E_H = (struct ethernet_hdr *)packet.data(); // get ethernet header
+
+    const uint8_t *dest_mac = E_H->ether_dhost;        // get the mac of destination
+    const uint8_t *interface_mac = iface->addr.data(); // get the mac of interface
+    const uint8_t *broadcast_mac = BroadcastEtherAddr; // get the mac of broadcast
+
+    // compare dest_mac to interface mac
+    bool is_addressed_to_interface = true;
+    for (int i = 0; i < 6; i++)
+    {
+      if (dest_mac[i] != interface_mac[i])
+      {
+        is_addressed_to_interface = false;
+        break;
+      }
+    }
+
+    // compare dest_mac to broadcast mac
+    bool is_addressed_to_broadcast = true;
+    for (int i = 0; i < 6; i++)
+    {
+      if (dest_mac[i] != broadcast_mac[i])
+      {
+        is_addressed_to_broadcast = false;
+        break;
+      }
+    }
+
+    // if the packet is not addressed to interface or broadcast, then ignore
+    if (is_addressed_to_broadcast == false && is_addressed_to_interface == false)
+      return;
+
     // copy packet into vector
     std::vector<unsigned char> packet_vec(packet.size());
     std::copy(packet.begin(), packet.end(), packet_vec.begin());
