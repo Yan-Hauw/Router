@@ -25,128 +25,128 @@
 
 #include "pox.hpp"
 
-namespace simple_router {
-
-class SimpleRouter
+namespace simple_router
 {
-public:
 
-  SimpleRouter();
+  class SimpleRouter
+  {
+  public:
+    SimpleRouter();
 
-  /**
-   * IMPLEMENT THIS METHOD
-   *
-   * This method is called each time the router receives a packet on
-   * the interface.  The packet buffer \p packet and the receiving
-   * interface \p inIface are passed in as parameters. The packet is
-   * complete with ethernet headers.
-   */
-  void
-  processPacket(const Buffer& packet, const std::string& inIface);
+    /**
+     * IMPLEMENT THIS METHOD
+     *
+     * This method is called each time the router receives a packet on
+     * the interface.  The packet buffer \p packet and the receiving
+     * interface \p inIface are passed in as parameters. The packet is
+     * complete with ethernet headers.
+     */
+    void
+    processPacket(const Buffer &packet, const std::string &inIface);
 
-  /**
-   * USE THIS METHOD TO SEND PACKETS
-   *
-   * Call this method to send packet \p packt from the router on interface \p outIface
-   */
-  void
-  sendPacket(const Buffer& packet, const std::string& outIface);
+    /**
+     * USE THIS METHOD TO SEND PACKETS
+     *
+     * Call this method to send packet \p packt from the router on interface \p outIface
+     */
+    void
+    sendPacket(const Buffer &packet, const std::string &outIface);
 
-  /**
-   * Load routing table information from \p rtConfig file
-   */
-  bool
-  loadRoutingTable(const std::string& rtConfig);
+    /**
+     * Load routing table information from \p rtConfig file
+     */
+    bool
+    loadRoutingTable(const std::string &rtConfig);
 
-  /**
-   * Load ACL table information from \p aclConfig file
-   */
-  bool
-  loadACLTable(const std::string& aclConfig);
+    /**
+     * Load ACL table information from \p aclConfig file
+     */
+    bool
+    loadACLTable(const std::string &aclConfig);
 
-  /**
-   * Load local interface configuration
-   */
-  void
-  loadIfconfig(const std::string& ifconfig);
+    /**
+     * Load local interface configuration
+     */
+    void
+    loadIfconfig(const std::string &ifconfig);
 
-  /**
-   * Get routing table
-   */
-  const RoutingTable&
-  getRoutingTable() const;
+    /**
+     * Get routing table
+     */
+    const RoutingTable &
+    getRoutingTable() const;
 
-  /**
-   * Get ACL table
-   */
-  const ACLTable&
-  getACLTable() const;
+    /**
+     * Get ACL table
+     */
+    const ACLTable &
+    getACLTable() const;
 
-  /**
-   * Get ARP table
-   */
-  const ArpCache&
-  getArp() const;
+    /**
+     * Get ARP table
+     */
+    const ArpCache &
+    getArp() const;
 
-  /**
-   * Print router interfaces
-   */
-  void
-  printIfaces(std::ostream& os);
+    /**
+     * Print router interfaces
+     */
+    void
+    printIfaces(std::ostream &os);
 
-  /**
-   * Reset ARP cache and interface list (e.g., when mininet restarted)
-   */
-  void
-  reset(const pox::Ifaces& ports);
+    /**
+     * Reset ARP cache and interface list (e.g., when mininet restarted)
+     */
+    void
+    reset(const pox::Ifaces &ports);
 
-  /**
-   * Find interface based on interface's IP address
-   */
-  const Interface*
-  findIfaceByIp(uint32_t ip) const;
+    /**
+     * Find interface based on interface's IP address
+     */
+    const Interface *
+    findIfaceByIp(uint32_t ip) const;
 
-  /**
-   * Find interface based on interface's MAC address
-   */
-  const Interface*
-  findIfaceByMac(const Buffer& mac) const;
+    /**
+     * Find interface based on interface's MAC address
+     */
+    const Interface *
+    findIfaceByMac(const Buffer &mac) const;
 
-  /**
-   * Find interface based on interface's name
-   */
-  const Interface*
-  findIfaceByName(const std::string& name) const;
+    /**
+     * Find interface based on interface's name
+     */
+    const Interface *
+    findIfaceByName(const std::string &name) const;
 
-private:
-  ArpCache m_arp;
-  RoutingTable m_routingTable;
-  ACLTable m_aclTable;
-  std::ofstream m_aclLogFile;
-  std::set<Interface> m_ifaces;
-  std::map<std::string, uint32_t> m_ifNameToIpMap;
+  private:
+    ArpCache m_arp;
+    RoutingTable m_routingTable;
+    ACLTable m_aclTable;
+    std::ofstream m_aclLogFile;
+    std::set<Interface> m_ifaces;
+    std::map<std::string, uint32_t> m_ifNameToIpMap;
 
-  friend class Router;
-  pox::PacketInjectorPrx m_pox;
-};
+    friend class Router;
+    pox::PacketInjectorPrx m_pox;
+  };
 
-inline const RoutingTable&
-SimpleRouter::getRoutingTable() const
-{
-  return m_routingTable;
-}
+  inline const RoutingTable &
+  SimpleRouter::getRoutingTable() const
+  {
+    return m_routingTable;
+  }
 
-inline const ACLTable&
-SimpleRouter::getACLTable() const
-{
-  return m_aclTable;
-}
+  inline const ACLTable &
+  SimpleRouter::getACLTable() const
+  {
+    return m_aclTable;
+  }
 
-inline const ArpCache&
-SimpleRouter::getArp() const
-{
-  return m_arp;
-}
+  inline const ArpCache &
+  SimpleRouter::getArp() const
+  {
+    return m_arp;
+  }
 
 } // namespace simple_router
 
