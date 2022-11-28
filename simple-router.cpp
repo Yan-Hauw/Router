@@ -22,6 +22,101 @@
 namespace simple_router
 {
 
+  void
+  SimpleRouter::process_arp_request(arp_hdr *arp_packet_hdr, const Interface *iface)
+  {
+    std::cerr << "Processing ARP request..." << std::endl;
+    /* First we need to check the IP address of the ARP packet */
+    uint32_t target_ip = arp_packet_hdr->arp_tip;
+    std::cerr << "This is the target IP: " << ipToString(arp_packet_hdr->arp_tip) << " vs " << ipToString(arp_packet_hdr->arp_tip) << std::endl;
+
+    const Interface *target_iface = findIfaceByIp(target_ip);
+
+    if (target_iface != nullptr) /* target ip matches one of our router's ip's*/
+    {
+      std::cerr << "Responding to ARP request..." << std::endl;
+      //* Create ethernet struct *//
+      ethernet_hdr ehdr;
+      ethernet_hdr *arp_ehdr = &ehdr;
+
+      // copy source MAC address and add as destination hardware address
+      std::copy(std::begin(arp_packet_hdr->arp_sha), std::end(arp_packet_hdr->arp_sha), std::begin(arp_ehdr->ether_dhost));
+
+      //* copy router's MAC address as source hardware address *//
+      std::copy((target_iface->addr).begin(), (target_iface->addr).end(), std::begin(arp_ehdr->ether_shost));
+
+      //* assign ethernet struct type as ARP *//
+      arp_ehdr->ether_type = htons(ethertype_arp);
+
+      //* Create ARP struct *//
+      arp_hdr arp_response_hdr;
+      arp_hdr *arp_resp_hdr = &arp_response_hdr;
+
+      //*assign extraneous details *//
+      arp_resp_hdr->arp_hrd = arp_packet_hdr->arp_hrd;
+      arp_resp_hdr->arp_pro = arp_packet_hdr->arp_pro;
+      arp_resp_hdr->arp_hln = arp_packet_hdr->arp_hln;
+      arp_resp_hdr->arp_pln = arp_packet_hdr->arp_pln;
+
+      //* assign opcode *//
+      arp_resp_hdr->arp_op = htons(arp_op_reply);
+
+      //* copy router's MAC address as sender hardware address *//
+      std::copy((target_iface->addr).begin(), (target_iface->addr).end(), std::begin(arp_resp_hdr->arp_sha));
+
+      //* copy router's IP address as sender IP address *//
+      arp_resp_hdr->arp_sip = target_iface->ip;
+
+      //* copy source MAC address as target hardware address *//
+      std::copy(std::begin(arp_packet_hdr->arp_sha), std::end(arp_packet_hdr->arp_sha), std::begin(arp_resp_hdr->arp_tha));
+
+      //* copy source IP address as target IP address *//
+      arp_resp_hdr->arp_tip = arp_packet_hdr->arp_sip;
+
+      /* convert the structs into vectors for sending */
+      auto const eth_ptr = reinterpret_cast<unsigned char *>(&ehdr);
+      auto const arp_ptr = reinterpret_cast<unsigned char *>(&arp_response_hdr);
+
+      std::vector<unsigned char> eth_vec(eth_ptr, eth_ptr + sizeof(ethernet_hdr));
+      std::vector<unsigned char> arp_vec(arp_ptr, arp_ptr + sizeof(arp_hdr));
+      /* create a big vector to send the data in */
+      std::vector<unsigned char> buf(sizeof(ethernet_hdr) + sizeof(arp_hdr));
+      /* copy necessary data into big vector */
+      std::copy(eth_vec.begin(), eth_vec.end(), buf.begin());
+      std::copy(arp_vec.begin(), arp_vec.end(), buf.begin() + sizeof(ethernet_hdr));
+
+      print_hdrs(buf);
+      /* send packet */
+      sendPacket(buf, (target_iface->name));
+    }
+    else
+      std::cerr << "ARP request received, but not for this router. Ignoring." << std::endl;
+  }
+
+  void
+  SimpleRouter::process_arp_packet(std::vector<unsigned char> &packet, const Interface *iface)
+  {
+    std::cerr << "Processing ARP packet..." << std::endl;
+
+    std::vector<unsigned char> arp_packet_vec(sizeof(arp_hdr)); /*create vector to copy ARP packet into */
+
+    std::vector<unsigned char>::const_iterator arp_it;
+    arp_it = packet.begin(); /*Initialize iterator to after ethernet stuff */
+
+    /*copy ARP packet alone into the vector */
+    std::copy(arp_it + sizeof(ethernet_hdr), arp_it + sizeof(ethernet_hdr) + sizeof(arp_hdr), arp_packet_vec.begin());
+
+    arp_hdr *arp_packet_hdr = reinterpret_cast<arp_hdr *>(arp_packet_vec.data());
+
+    // If ARP request:
+    // std::cerr << "ARP Packet OPcode" << ntohs(arp_packet_hdr->arp_op) << "and" << arp_op_request << std::endl;
+    if (ntohs(arp_packet_hdr->arp_op) == arp_op_request)
+    {
+      std::cerr << "REACHED PROCESS ARP REQUEST" << std::endl;
+      process_arp_request(arp_packet_hdr, iface);
+    }
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////
   // IMPLEMENT THIS METHOD
@@ -37,9 +132,31 @@ namespace simple_router
       return;
     }
 
-    std::cerr << getRoutingTable() << std::endl;
+    // std::cerr << getRoutingTable() << std::endl;
 
     // FILL THIS IN
+
+    // copy packet into vector
+    std::vector<unsigned char> packet_vec(packet.size());
+    std::copy(packet.begin(), packet.end(), packet_vec.begin());
+
+    /* debugging */
+    // print_hdrs(packet_vec);
+
+    std::vector<unsigned char> eth_header_vec(sizeof(ethernet_hdr)); /*create a vector to copy the ethernet header into*/
+
+    std::copy(packet_vec.begin(), packet_vec.begin() + sizeof(ethernet_hdr), eth_header_vec.begin()); /*Copy ethernet header into said vector */
+
+    ethernet_hdr *eth_hdr = reinterpret_cast<ethernet_hdr *>(eth_header_vec.data()); /* Cast vector to an actual eth_hdr struct */
+
+    if (ntohs(eth_hdr->ether_type) == ethertype_arp) /*If the ethernet frame is ARP*/
+    {
+      std::cerr << "ARP packet received." << std::endl;
+      print_hdrs(packet);
+      process_arp_packet(packet_vec, iface);
+    }
+
+    // print_hdrs(packet);
   }
   //////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////
