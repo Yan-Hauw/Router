@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <string.h>
 #include <unistd.h>
+#include <iostream>
 
 namespace simple_router
 {
@@ -32,10 +33,39 @@ namespace simple_router
   RoutingTableEntry
   RoutingTable::lookup(uint32_t ip) const
   {
+    // std::cerr << "Beginning lookup..." << std::endl;
+    RoutingTableEntry matched;
+    std::list<RoutingTableEntry>::const_iterator entries_it;
+    unsigned long max_prefix_len = 0;
+    bool match_found = false;
+    for (entries_it = m_entries.begin(); entries_it != m_entries.end(); entries_it++)
+    {
+      if ((ip & entries_it->mask) == (entries_it->dest & entries_it->mask)) /* bitwise and */
+      {
+        // std::cerr << "Found a prefix match!" << std::endl;
+        if (max_prefix_len <= entries_it->mask)
+        {
+          // std::cerr << "Assigning struct values from RoutingTableEntry" << std::endl;
+          max_prefix_len = entries_it->mask;
+          match_found = true;
+          matched.dest = entries_it->dest;
+          matched.gw = entries_it->gw;
+          matched.mask = entries_it->mask;
+          matched.ifName = entries_it->ifName;
+        }
+      }
+    }
 
-    // FILL THIS IN
+    if (match_found)
+    {
+      // std::cerr << "target_ip: " << ipToString(ip) << " matched IP: " << ipToString(matched.dest) << std::endl;
+      return matched;
+    }
+    else
 
-    throw std::runtime_error("Routing entry not found");
+      // FILL THIS IN
+
+      throw std::runtime_error("Routing entry not found");
   }
   //////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////
