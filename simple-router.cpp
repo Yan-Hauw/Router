@@ -164,9 +164,15 @@ namespace simple_router
       }
     }
 
+    std::cerr << "is addressed to interface" << is_addressed_to_interface << std::endl;
+    std::cerr << "is addressed to broadcast" << is_addressed_to_broadcast << std::endl;
+
     // if the packet is not addressed to interface or broadcast, then ignore
     if (is_addressed_to_broadcast == false && is_addressed_to_interface == false)
+    {
+      std::cerr << "Packet dropped on interface " << inIface << std::endl;
       return;
+    }
 
     // copy packet into vector
     std::vector<unsigned char> packet_vec(packet.size());
