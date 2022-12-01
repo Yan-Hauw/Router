@@ -352,6 +352,21 @@ namespace simple_router
       {
         std::cerr << "Destination IP address is not the router's, so forwarding begins..." << std::endl;
         // std::cerr << "stopping testing here" << std::endl;
+
+        if (ip_packet_hdr->ip_p == ip_protocol_icmp)
+        {
+          // m_aclTable.lookup(ip_packet_hdr->ip_src, ip_packet_hdr->ip_dst, ip_protocol_icmp, 0, 0)
+        }
+        else
+        {
+          std::vector<unsigned char> src_port_vec;
+          std::vector<unsigned char> dest_port_vec;
+
+          std::copy(ip_it + sizeof(ethernet_hdr) + sizeof(ip_hdr), ip_it + sizeof(ethernet_hdr) + sizeof(ip_hdr) + 2, src_port_vec.begin());
+
+          std::copy(ip_it + sizeof(ethernet_hdr) + sizeof(ip_hdr) + 2, ip_it + sizeof(ethernet_hdr) + sizeof(ip_hdr) + 4, dest_port_vec.begin());
+        }
+
         forward_packet(packet, target_ip, iface);
       }
       else

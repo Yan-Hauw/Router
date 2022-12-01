@@ -60,10 +60,41 @@ namespace simple_router
   //////////////////////////////////////////////////////////////////////////
   // IMPLEMENT THESE METHODS
   ACLTableEntry
-  ACLTable::lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint32_t srcPort, uint16_t dstPort) const
+  ACLTable::lookup(uint32_t srcIp, uint32_t dstIp, uint8_t protocol, uint16_t srcPort, uint16_t dstPort) const
   {
     // FILL THIS IN
 
+    // std::cerr << "Entered ACL Table lookup function" << std::endl;
+
+    // std::list<ACLTableEntry>::const_iterator entries_it;
+    // uint16_t highest = 1;
+    // std::string final_action = "";
+    // for (entries_it = m_entries.begin(); entries_it != m_entries.end(); entries_it++)
+    // {
+
+    //   if ((srcIp & entries_it->srcMask == entries_it->srcMask & entries_it->src))
+    //     &&((dstIp & entries_it->destMask == entries_it->destMask & entries_it->dest)) && ((protocol & entries_it->protocolMask == entries_it->protocolMask & entries_it->protocol)) && ((srcPort & entries_it->srcPortMask == entries_it->srcPortMask & entries_it->srcPort)) && ((dstPort & entries_it->destPortMask == entries_it->destPortMask & entries_it->destPort))
+    //     {
+    //       if (entries_it->priority >= highest)
+    //       {
+    //         highest = entries_it->priority;
+    //         final_action = entries_it->action;
+    //       }
+    //     }
+    // }
+    // if (final_action == "")
+    // {
+    //   std::cerr << "ACL entry not found" << std::endl;
+    // }
+    // else
+    // {
+    //   if (final_action == "permit")
+    //   {
+    //   }
+    //   else
+    //   {
+    //   }
+    // }
     throw std::runtime_error("ACL entry not found");
   }
 
@@ -71,6 +102,7 @@ namespace simple_router
   ACLTable::addRule(ACLTableEntry &entry)
   {
     // FILL THIS IN
+    m_entries.push_back(entry);
   }
 
   //////////////////////////////////////////////////////////////////////////
