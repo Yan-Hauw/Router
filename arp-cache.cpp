@@ -48,7 +48,7 @@ namespace simple_router
         uint32_t nextHopIP = (*requestIterator)->ip;
         const Interface *outgoing_iface = m_router.findIfaceByName(outgoingInterfaceName); // get the right interface to re-send from
 
-        m_router.send_arp_request(nextHopIP, outgoing_iface);                // re-send arp request
+        m_router.sendArpRequest(nextHopIP, outgoing_iface);                  // re-send arp request
         (*requestIterator)->nTimesSent = (*requestIterator)->nTimesSent + 1; // update ntimessent
         std::cerr << "Number of times this packet has been sent: " << (*requestIterator)->nTimesSent << std::endl;
         (*requestIterator)->timeSent = steady_clock::now(); // update timesent

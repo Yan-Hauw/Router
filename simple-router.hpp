@@ -33,6 +33,24 @@ namespace simple_router
   public:
     SimpleRouter();
 
+    void
+    processArpReply(arp_hdr *arp_packet_hdr, const Interface *iface);
+
+    void
+    processArpRequest(arp_hdr *arp_packet_hdr, const Interface *iface);
+
+    void
+    processArpPacket(std::vector<unsigned char> &packet, const Interface *iface);
+
+    void
+    sendArpRequest(uint32_t ip, const Interface *iface);
+
+    void
+    forwardPacket(std::vector<unsigned char> &packet, uint32_t target_ip, const Interface *iface);
+
+    void
+    processIpPacket(std::vector<unsigned char> &packet, const Interface *iface);
+
     /**
      * IMPLEMENT THIS METHOD
      *
