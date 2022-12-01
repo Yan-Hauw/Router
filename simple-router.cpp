@@ -295,6 +295,10 @@ namespace simple_router
 
         // update values
         uint8_t ttl = ip_packet_hdr->ip_ttl;
+        if (ttl == 0)
+        {
+          return;
+        }
         ip_packet_hdr->ip_ttl = ttl - 1;
         ip_packet_hdr->ip_sum = 0;
         uint16_t new_checksum = cksum(ip_packet_hdr, sizeof(ip_hdr));
