@@ -39,6 +39,7 @@ namespace simple_router
     if (arp_req == nullptr)
     {
       std::cerr << "Failed to create ARP entry. " << std::endl;
+      return;
     }
     std::list<PendingPacket>::iterator pp_it;
     for (pp_it = (arp_req->packets).begin(); pp_it != (arp_req->packets).end(); pp_it++)
@@ -66,8 +67,8 @@ namespace simple_router
       // copy the vector containing ip header bytes back into the packet (after the ethernet header)
       std::copy(ip_vec.begin(), ip_vec.end(), (*pp_it).packet.begin() + sizeof(ethernet_hdr));
 
-      std::cerr << "These are the headers of a pending packet" << std::endl;
-      print_hdrs((*pp_it).packet);
+      // std::cerr << "These are the headers of a pending packet" << std::endl;
+      // print_hdrs((*pp_it).packet);
 
       // send the pending packet
       sendPacket((*pp_it).packet, (*pp_it).iface);
@@ -142,7 +143,7 @@ namespace simple_router
       std::copy(eth_vec.begin(), eth_vec.end(), buf.begin());
       std::copy(arp_vec.begin(), arp_vec.end(), buf.begin() + sizeof(ethernet_hdr));
 
-      print_hdrs(buf);
+      // print_hdrs(buf);
       /* send packet */
       sendPacket(buf, (target_iface->name));
     }
@@ -233,8 +234,8 @@ namespace simple_router
     std::copy(eth_vec.begin(), eth_vec.end(), buf.begin());
     std::copy(arp_vec.begin(), arp_vec.end(), buf.begin() + sizeof(ethernet_hdr));
 
-    std::cerr << "Check to see that the ARP packet was made correctly: " << std::endl;
-    print_hdrs(buf);
+    // std::cerr << "Check to see that the ARP packet was made correctly: " << std::endl;
+    // print_hdrs(buf);
 
     sendPacket(buf, (iface->name));
   }
@@ -429,7 +430,7 @@ namespace simple_router
     if (ntohs(eth_hdr->ether_type) == ethertype_arp) /*If the ethernet frame is ARP*/
     {
       std::cerr << "ARP packet received." << std::endl;
-      print_hdrs(packet);
+      // print_hdrs(packet);
       process_arp_packet(packet_vec, iface);
     }
     else if (ntohs(eth_hdr->ether_type) == ethertype_ip) /* If it's IP */
