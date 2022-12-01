@@ -34,36 +34,36 @@ namespace simple_router
   RoutingTable::lookup(uint32_t ip) const
   {
     // std::cerr << "Beginning lookup..." << std::endl;
-    RoutingTableEntry matched;
-    std::list<RoutingTableEntry>::const_iterator entries_it;
-    unsigned long max_prefix_len = 0;
-    bool match_found = false;
-    for (entries_it = m_entries.begin(); entries_it != m_entries.end(); entries_it++)
+    RoutingTableEntry matchingEntry;
+    std::list<RoutingTableEntry>::const_iterator entriesIterator;
+    unsigned long longestSeenPrefix = 0;
+    bool match_exists = false;
+    for (entriesIterator = m_entries.begin(); entriesIterator != m_entries.end(); entriesIterator++)
     {
-      if ((ip & entries_it->mask) == (entries_it->dest & entries_it->mask)) /* bitwise and */
+      if ((ip & entriesIterator->mask) == (entriesIterator->dest & entriesIterator->mask))
       {
         // std::cerr << "Found a prefix match!" << std::endl;
-        if (max_prefix_len <= entries_it->mask)
+        if (longestSeenPrefix <= entriesIterator->mask)
         {
           // std::cerr << "Assigning struct values from RoutingTableEntry" << std::endl;
-          max_prefix_len = entries_it->mask;
-          match_found = true;
-          matched.dest = entries_it->dest;
-          matched.gw = entries_it->gw;
-          matched.mask = entries_it->mask;
-          matched.ifName = entries_it->ifName;
+          longestSeenPrefix = entriesIterator->mask;
+          match_exists = true;
+          matchingEntry.dest = entriesIterator->dest;
+          matchingEntry.gw = entriesIterator->gw;
+          matchingEntry.mask = entriesIterator->mask;
+          matchingEntry.ifName = entriesIterator->ifName;
         }
       }
     }
 
-    if (match_found)
+    if (match_exists)
     {
-      // std::cerr << "target_ip: " << ipToString(ip) << " matched IP: " << ipToString(matched.dest) << std::endl;
-      return matched;
+      // std::cerr << "target_ip: " << ipToString(ip) << " matchingEntry IP: " << ipToString(matchingEntry.dest) << std::endl;
+      return matchingEntry;
     }
     else
 
-      // FILL THIS IN
+      //
 
       throw std::runtime_error("Routing entry not found");
   }
