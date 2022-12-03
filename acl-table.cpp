@@ -64,38 +64,37 @@ namespace simple_router
   {
     // FILL THIS IN
 
-    // std::cerr << "Entered ACL Table lookup function" << std::endl;
+    std::cerr << "Entered ACL Table lookup function" << std::endl;
 
-    // std::list<ACLTableEntry>::const_iterator entries_it;
-    // uint16_t highest = 1;
-    // std::string final_action = "";
-    // for (entries_it = m_entries.begin(); entries_it != m_entries.end(); entries_it++)
-    // {
+    ACLTableEntry entry;
 
-    //   if ((srcIp & entries_it->srcMask == entries_it->srcMask & entries_it->src))
-    //     &&((dstIp & entries_it->destMask == entries_it->destMask & entries_it->dest)) && ((protocol & entries_it->protocolMask == entries_it->protocolMask & entries_it->protocol)) && ((srcPort & entries_it->srcPortMask == entries_it->srcPortMask & entries_it->srcPort)) && ((dstPort & entries_it->destPortMask == entries_it->destPortMask & entries_it->destPort))
-    //     {
-    //       if (entries_it->priority >= highest)
-    //       {
-    //         highest = entries_it->priority;
-    //         final_action = entries_it->action;
-    //       }
-    //     }
-    // }
-    // if (final_action == "")
-    // {
-    //   std::cerr << "ACL entry not found" << std::endl;
-    // }
-    // else
-    // {
-    //   if (final_action == "permit")
-    //   {
-    //   }
-    //   else
-    //   {
-    //   }
-    // }
-    throw std::runtime_error("ACL entry not found");
+    std::list<ACLTableEntry>::const_iterator entries_it;
+    uint16_t highest = 1;
+    std::string final_action = "";
+    for (entries_it = m_entries.begin(); entries_it != m_entries.end(); entries_it++)
+    {
+
+      std::cerr << "protocol argument: " << unsigned(protocol) << "entry.protocol: " << unsigned(entries_it->protocol) << std::endl;
+
+      if ((((srcIp & entries_it->srcMask) == (entries_it->srcMask & entries_it->src))) && (((dstIp & entries_it->destMask) == (entries_it->destMask & entries_it->dest))) && (((protocol & entries_it->protocolMask) == (entries_it->protocolMask & entries_it->protocol))) && (((srcPort & entries_it->srcPortMask) == (entries_it->srcPortMask & entries_it->srcPort))) && (((dstPort & entries_it->destPortMask) == (entries_it->destPortMask & entries_it->destPort))))
+      {
+        if (entries_it->priority >= highest)
+        {
+          entry = *entries_it;
+          highest = entries_it->priority;
+          final_action = entries_it->action;
+        }
+      }
+    }
+
+    if (final_action == "")
+    {
+      throw std::runtime_error("ACL entry not found");
+    }
+    else
+    {
+      return entry;
+    }
   }
 
   void

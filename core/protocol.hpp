@@ -156,6 +156,16 @@ namespace simple_router
     uint32_t arp_tip;                      /* target IP address            */
   } __attribute__((packed));
 
+  struct tcp_src_port
+  {
+    uint16_t src_port; /* format of hardware address   */
+  } __attribute__((packed));
+
+  struct tcp_dest_port
+  {
+    uint16_t dest_port; /* format of hardware address   */
+  } __attribute__((packed));
+
 } // namespace simple_router
 
 #endif // SIMPLE_ROUTER_PROTOCOL_HPP
