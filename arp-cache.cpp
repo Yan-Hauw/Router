@@ -31,31 +31,27 @@ namespace simple_router
   void
   ArpCache::periodicCheckArpRequestsAndCacheEntries()
   {
-
-    // iterate through arp requests
     std::list<std::shared_ptr<ArpRequest>>::iterator requestIterator;
     std::list<PendingPacket>::iterator packetIterator;
     for (requestIterator = m_arpRequests.begin(); requestIterator != m_arpRequests.end(); requestIterator++)
     {
       if (((*requestIterator)->nTimesSent) >= 5)
       {
-        removeArpRequest((*requestIterator)); // remove request if number of times sent has exceeded 5
+        removeArpRequest((*requestIterator));
       }
       else
       {
         packetIterator = ((*requestIterator)->packets).begin();
         std::string outgoingInterfaceName = (*packetIterator).iface;
         uint32_t nextHopIP = (*requestIterator)->ip;
-        const Interface *outgoing_iface = m_router.findIfaceByName(outgoingInterfaceName); // get the right interface to re-send from
+        const Interface *outgoing_iface = m_router.findIfaceByName(outgoingInterfaceName);
 
-        m_router.sendArpRequest(nextHopIP, outgoing_iface);                  // re-send arp request
-        (*requestIterator)->nTimesSent = (*requestIterator)->nTimesSent + 1; // update ntimessent
-        std::cerr << "Number of times this packet has been sent: " << (*requestIterator)->nTimesSent << std::endl;
-        (*requestIterator)->timeSent = steady_clock::now(); // update timesent
+        m_router.sendArpRequest(nextHopIP, outgoing_iface);
+        (*requestIterator)->nTimesSent = (*requestIterator)->nTimesSent + 1;
+        (*requestIterator)->timeSent = steady_clock::now();
       }
     }
 
-    // iterate through arp cache entries
     std::list<std::shared_ptr<ArpEntry>>::iterator entryIterator;
     entryIterator = m_cacheEntries.begin();
     while (entryIterator != m_cacheEntries.end())
