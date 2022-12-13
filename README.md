@@ -1,6 +1,6 @@
 # Router
 
-This repository contains the code for a router and has all the basic functionality that a simple router would have: ARP cache, routing table, ACL table, and forwarding logic based on what kinds of packets the router receives (this router supports receiving ARP packets and ARP packets)
+This repository contains the code for a router and has all the basic functionality that a simple router would have: ARP cache, routing table, ACL table, and forwarding logic based on what kinds of packets the router receives (this router supports receiving and sending ARP packets and receiving and sending IP packets)
 
 The code for the above functionality is in the following files:<br>
 
