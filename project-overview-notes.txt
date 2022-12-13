@@ -12,12 +12,12 @@ processPacket
     If IP packet
         -Verify checksum
         -match header length to given length
-        -check if IP version is IPV4
+        -check if IP version is IPV4 - MISSING -not fixing this
         -verify packet should not be dropped by ACL
         -check if destined for the router
             -If so, drop the packet
             -else
-                -Decrement TTL, if TTL = 0, drop the packet
+                -Decrement TTL, if TTL = 0, drop the packet - MISSING
                 -Look up next hop IP in routing table
                 -for every table entry in routing table, destination is final IP, gateway is next hop IP, do bitwise AND of the mask with the IP address, get the interface name
                 -Look up next hop IP in ARP cache, if MAC address is known send packet, else queue packet and send out ARP requests

@@ -2,6 +2,9 @@ pox.hpp
 pox.cpp
 .DS*
 router
+Makefile
+*.tar.gz
+README.md
 *.o
 *.dSYM
 .vagrant

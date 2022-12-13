@@ -12,11 +12,28 @@ Every time we make changes and want to run those changes
 
 
 
+Commands for transferring files to gcloud
+
+Transfer all code files to gcp: 
+gcloud compute scp acl-table.cpp acl-table.hpp arp-cache.cpp arp-cache.hpp ATABLE COPYING.md Dockerfile IP_CONFIG Makefile pox.service README.md router.config routing-table.cpp routing-table.hpp RTABLE run.py show-arp.py simple-router.cpp simple-router.hpp Vagrantfile yanhauw3@cs118-vm-1:current-version
+
+Transfer all changed files to gcp:
+gcloud compute scp acl-table.cpp arp-cache.cpp routing-table.cpp simple-router.cpp yanhauw3@cs118-vm-1:current-version
+
+Transfer bash script to gcp:
+gcloud compute scp transfer-into-container.sh yanhauw3@cs118-vm-1:current-version
+
+
 
 Outside and before first docker container
 
+Create image and build container
 sudo docker build -t 118-project-2-container .
 sudo docker run -it --privileged 118-project-2-container bash
+
+open shell in container
+sudo docker ps
+sudo docker exec -it --privileged <name_of_container> bash
 
 
 In first docker container
@@ -39,18 +56,16 @@ make
 ./router
 
 
+Stop and remove docker container
+sudo docker stop CONTAINER_ID
+sudo docker rm CONTATINER_ID
+sudo docker start stoic_keller
+
+Current container id: 08bdd989bba2
+
+
 
 Other commands
 
 client ping server1
 client traceroute server1
-
-
-
-
-
-
-
-
-
-
